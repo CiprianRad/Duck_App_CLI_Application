@@ -1,0 +1,3 @@
+C:/Users/cipri/CLionProjects/duck_app/cmake-build-debug/CMakeFiles/duck_app.dir
+C:/Users/cipri/CLionProjects/duck_app/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/cipri/CLionProjects/duck_app/cmake-build-debug/CMakeFiles/rebuild_cache.dir
