@@ -4,21 +4,13 @@
 
 #ifndef FILEREPOSITORY_H
 #define FILEREPOSITORY_H
-#include <fstream>
-#include <sstream>
-#include <vector>
+
+#include "Repository.h"
 #include <string>
 #include <memory>
-#include <filesystem>
-#include <iterator>
-
-#include "..\domain\Duck.h"
-#include "..\domain\Lane.h"
-#include "..\domain\validators.h"
-#include "Repository.h"
-
 
 namespace ro::ubb::duck_app::repository {
+
     class FileRepositoryException : public domain::DuckAppException {
     public:
         using DuckAppException::DuckAppException;
@@ -29,92 +21,21 @@ namespace ro::ubb::duck_app::repository {
         std::string fileName;
         std::shared_ptr<domain::EntityValidator> validator;
 
-        void loadData() {
-            std::ifstream file(fileName);
-            if (!file.is_open()) {
-                throw FileRepositoryException("Could not open file :" + fileName);
-            }
+        void loadData();
+        void saveToFile();
 
-            std::string line;
-            std::getline(file, line);
-            std::istringstream firstLine(line);
-            int duckCount, laneCount;
-            firstLine >> duckCount >> laneCount;
-
-            std::getline(file, line);
-            std::istringstream speedStream(line);
-            std::vector<int> speeds((std::istream_iterator<int>(speedStream)), {});
-
-            std::getline(file,line);
-            std::istringstream resistanceStream(line);
-            std::vector<int> resistances((std::istream_iterator<int>(resistanceStream)), {});
-
-            std::getline(file, line);
-            std::istringstream lengthStream(line);
-            std::vector<int> lengths((std::istream_iterator<int>(lengthStream)), {});
-
-            if (speeds.size() != duckCount || resistances.size() != duckCount) {
-                throw FileRepositoryException("Mismatch between the number of ducks and attributes given!");
-            }
-
-            if (lengths.size() != laneCount) {
-                throw FileRepositoryException("Mismatch between the number of lanes and attributes given!");
-            }
-
-            if (std::dynamic_pointer_cast<domain::DuckValidator>(validator)) {
-                for (int i = 0; i < duckCount; ++i) {
-                    auto duck = std::make_shared<domain::Duck>(i + 1, speeds[i], resistances[i]);
-                    Repository::save(duck);
-                }
-            }
-            else if (std::dynamic_pointer_cast<domain::LaneValidator>(validator)) {
-                for (int i = 0; i < laneCount; ++i) {
-                    auto lane = std::make_shared<domain::Lane>(i + 1, lengths[i]);
-                    Repository::save(lane);
-                }
-            }
-        }
     public:
-        explicit FileRepository(std::shared_ptr<domain::EntityValidator> validator, const std::string & file_name) : Repository(validator), fileName(file_name), validator(validator) { loadData();}
-        void save(const std::shared_ptr<domain::Entity> & entity) override {
-            Repository::save(entity);
+        FileRepository(std::shared_ptr<domain::EntityValidator> validator, const std::string& fileName);
 
-            std::ifstream fileIn(fileName);
-            std::string lines[4];
-            for (int i = 0; i < 4 && std::getline(fileIn, lines[i]); i++);
-            fileIn.close();
-            int duckCount = 0; int laneCount = 0;
-            std::istringstream header(lines[0]);
-            header >> duckCount >> laneCount;
-
-            std::ostringstream newContent;
-            if (std::dynamic_pointer_cast<domain::Duck>(entity)) {
-                ++duckCount;
-                newContent << duckCount << " " << laneCount << "\n";
-
-                lines[1] += (lines[1].empty() ? "" : " ") + std::to_string(std::dynamic_pointer_cast<domain::Duck>(entity)->getSpeed());
-                lines[2] += (lines[2].empty() ? "" : " ") + std::to_string(std::dynamic_pointer_cast<domain::Duck>(entity)->getResistance());
-            }
-            else if (std::dynamic_pointer_cast<domain::Lane>(entity)) {
-                ++laneCount;
-                newContent << duckCount << " " << laneCount << "\n";
-                lines[3] += (lines[3].empty() ? "" : " ") +std::to_string(std::dynamic_pointer_cast<domain::Lane>(entity)->getLength());
-            }
-
-            newContent << lines[1] << "\n" << lines[2] << "\n"<< lines[3] << "\n";
-
-            std::ofstream fileOut(fileName);
-            fileOut << newContent.str();
-            fileOut.close();
-        }
+        void save(const std::shared_ptr<domain::Entity>& entity) override;
+        void update(const std::shared_ptr<domain::Entity>& entity);
+        void deleteById(int id);
     };
-
-    //TODO: Complete the FIleRepository with the delete and update options
-    //TODO: Check the for loop at line 84. It may be useless.
 }
 
-#endif //FILEREPOSITORY_H
+//TODO: Complete the FIleRepository with the delete and update options
 
+#endif //FILEREPOSITORY_H
 
 
 /*Note:  This is a templated version for the FileRepository which we will implement at a later time;
