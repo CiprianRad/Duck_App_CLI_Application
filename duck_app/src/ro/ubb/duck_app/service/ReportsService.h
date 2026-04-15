@@ -16,22 +16,22 @@ namespace ro::ubb::duck_app::service {
 
     class ReportsService {
     private:
-        std::shared_ptr<repository::Repository> duck_repository;
-        std::shared_ptr<repository::Repository> lane_repository;
+        std::shared_ptr<ro::ubb::duck_app::repository::Repository> duck_repository;
+        std::shared_ptr<ro::ubb::duck_app::repository::Repository> lane_repository;
 
-        [[nodiscard]] std::unordered_map<int, std::shared_ptr<domain::Duck>> getAllDucks() const;
-        [[nodiscard]] std::unordered_map<int, std::shared_ptr<domain::Lane>> getAllLanes() const;
+        [[nodiscard]] std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Duck>> getAllDucks() const;
+        [[nodiscard]] std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Lane>> getAllLanes() const;
 
     public:
-        ReportsService(std::shared_ptr<repository::Repository> duck_repo,
-                       std::shared_ptr<repository::Repository> lane_repo);
+        ReportsService(std::shared_ptr<ro::ubb::duck_app::repository::Repository> duck_repo,
+                       std::shared_ptr<ro::ubb::duck_app::repository::Repository> lane_repo);
         virtual ~ReportsService() = default;
 
-        [[nodiscard]] std::shared_ptr<repository::Repository> getDuckRepository() const;
-        [[nodiscard]] std::shared_ptr<repository::Repository> getLaneRepository() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::repository::Repository> getDuckRepository() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::repository::Repository> getLaneRepository() const;
 
-        void setDuckRepository(const std::shared_ptr<repository::Repository> &value);
-        void setLaneRepository(const std::shared_ptr<repository::Repository> &value);
+        void setDuckRepository(const std::shared_ptr<ro::ubb::duck_app::repository::Repository> &value);
+        void setLaneRepository(const std::shared_ptr<ro::ubb::duck_app::repository::Repository> &value);
 
         void schemaMunti() const;
     };

@@ -8,10 +8,12 @@
 #include "Repository.h"
 #include <string>
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 namespace ro::ubb::duck_app::repository {
 
-    class FileRepositoryException : public domain::DuckAppException {
+    class FileRepositoryException : public ro::ubb::duck_app::domain::DuckAppException {
     public:
         using DuckAppException::DuckAppException;
     };
@@ -19,17 +21,17 @@ namespace ro::ubb::duck_app::repository {
     class FileRepository : public Repository {
     private:
         std::string fileName;
-        std::shared_ptr<domain::EntityValidator> validator;
+        std::shared_ptr<ro::ubb::duck_app::domain::EntityValidator> validator;
 
         void loadData();
         void saveToFile();
 
     public:
-        FileRepository(std::shared_ptr<domain::EntityValidator> validator, const std::string& fileName);
+        FileRepository(std::shared_ptr<ro::ubb::duck_app::domain::EntityValidator> validator, const std::string& fileName);
 
-        void save(const std::shared_ptr<domain::Entity>& entity) override;
-        void update(const std::shared_ptr<domain::Entity>& entity);
-        void deleteById(int id);
+        void save(const std::shared_ptr<ro::ubb::duck_app::domain::Entity>& entity) override;
+        void update(const std::shared_ptr<ro::ubb::duck_app::domain::Entity>& entity) override;
+        void deleteById(int id) override;
     };
 }
 

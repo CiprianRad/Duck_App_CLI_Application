@@ -6,7 +6,7 @@
 
 namespace ro::ubb::duck_app::repository {
 
-    FileRepository::FileRepository(std::shared_ptr<domain::EntityValidator> validator, const std::string& fileName)
+    FileRepository::FileRepository(std::shared_ptr<ro::ubb::duck_app::domain::EntityValidator> validator, const std::string& fileName)
         : Repository(validator), fileName(fileName), validator(validator) {
         loadData();
     }
@@ -34,25 +34,25 @@ namespace ro::ubb::duck_app::repository {
         readInts(resistances);
         readInts(lengths);
 
-        if (std::dynamic_pointer_cast<domain::DuckValidator>(validator)) {
+        if (std::dynamic_pointer_cast<ro::ubb::duck_app::domain::DuckValidator>(validator)) {
             for (size_t i = 0; i < speeds.size() && i < resistances.size(); ++i) {
-                Repository::save(std::make_shared<domain::Duck>(static_cast<int>(i + 1), speeds[i], resistances[i]));
+                Repository::save(std::make_shared<ro::ubb::duck_app::domain::Duck>(static_cast<int>(i + 1), speeds[i], resistances[i]));
             }
-        } else if (std::dynamic_pointer_cast<domain::LaneValidator>(validator)) {
+        } else if (std::dynamic_pointer_cast<ro::ubb::duck_app::domain::LaneValidator>(validator)) {
             for (size_t i = 0; i < lengths.size(); ++i) {
-                Repository::save(std::make_shared<domain::Lane>(static_cast<int>(i + 1), lengths[i]));
+                Repository::save(std::make_shared<ro::ubb::duck_app::domain::Lane>(static_cast<int>(i + 1), lengths[i]));
             }
         }
     }
 
     void FileRepository::saveToFile() {
         auto allEntities = findAll();
-        std::vector<std::shared_ptr<domain::Duck>> ducks;
-        std::vector<std::shared_ptr<domain::Lane>> lanes;
+        std::vector<std::shared_ptr<ro::ubb::duck_app::domain::Duck>> ducks;
+        std::vector<std::shared_ptr<ro::ubb::duck_app::domain::Lane>> lanes;
 
         for (const auto& entity : allEntities) {
-            if (auto d = std::dynamic_pointer_cast<domain::Duck>(entity)) ducks.push_back(d);
-            else if (auto l = std::dynamic_pointer_cast<domain::Lane>(entity)) lanes.push_back(l);
+            if (auto d = std::dynamic_pointer_cast<ro::ubb::duck_app::domain::Duck>(entity)) ducks.push_back(d);
+            else if (auto l = std::dynamic_pointer_cast<ro::ubb::duck_app::domain::Lane>(entity)) lanes.push_back(l);
         }
 
         std::ofstream file(fileName);
@@ -67,12 +67,12 @@ namespace ro::ubb::duck_app::repository {
         file << "\n";
     }
 
-    void FileRepository::save(const std::shared_ptr<domain::Entity>& entity) {
+    void FileRepository::save(const std::shared_ptr<ro::ubb::duck_app::domain::Entity>& entity) {
         Repository::save(entity);
         saveToFile();
     }
 
-    void FileRepository::update(const std::shared_ptr<domain::Entity>& entity) {
+    void FileRepository::update(const std::shared_ptr<ro::ubb::duck_app::domain::Entity>& entity) {
         Repository::update(entity);
         saveToFile();
     }

@@ -6,35 +6,35 @@
 
 namespace ro::ubb::duck_app::service {
 
-    ReportsService::ReportsService(std::shared_ptr<repository::Repository> duck_repo, 
-                                   std::shared_ptr<repository::Repository> lane_repo)
+    ReportsService::ReportsService(std::shared_ptr<ro::ubb::duck_app::repository::Repository> duck_repo, 
+                                   std::shared_ptr<ro::ubb::duck_app::repository::Repository> lane_repo)
         : duck_repository(std::move(duck_repo)), lane_repository(std::move(lane_repo)) {}
 
-    std::unordered_map<int, std::shared_ptr<domain::Duck>> ReportsService::getAllDucks() const {
-        std::unordered_map<int, std::shared_ptr<domain::Duck>> ducks;
+    std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Duck>> ReportsService::getAllDucks() const {
+        std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Duck>> ducks;
         for (const auto &entity : duck_repository->findAll()) {
-            if (auto duck = std::dynamic_pointer_cast<domain::Duck>(entity)) {
+            if (auto duck = std::dynamic_pointer_cast<ro::ubb::duck_app::domain::Duck>(entity)) {
                 ducks[duck->getId()] = duck;
             }
         }
         return ducks;
     }
 
-    std::unordered_map<int, std::shared_ptr<domain::Lane>> ReportsService::getAllLanes() const {
-        std::unordered_map<int, std::shared_ptr<domain::Lane>> lanes;
+    std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Lane>> ReportsService::getAllLanes() const {
+        std::unordered_map<int, std::shared_ptr<ro::ubb::duck_app::domain::Lane>> lanes;
         for (const auto& entity : lane_repository->findAll()) {
-            if (auto lane = std::dynamic_pointer_cast<domain::Lane>(entity)) {
+            if (auto lane = std::dynamic_pointer_cast<ro::ubb::duck_app::domain::Lane>(entity)) {
                 lanes[lane->getId()] = lane;
             }
         }
         return lanes;
     }
 
-    std::shared_ptr<repository::Repository> ReportsService::getDuckRepository() const { return duck_repository; }
-    std::shared_ptr<repository::Repository> ReportsService::getLaneRepository() const { return lane_repository; }
+    std::shared_ptr<ro::ubb::duck_app::repository::Repository> ReportsService::getDuckRepository() const { return duck_repository; }
+    std::shared_ptr<ro::ubb::duck_app::repository::Repository> ReportsService::getLaneRepository() const { return lane_repository; }
     
-    void ReportsService::setDuckRepository(const std::shared_ptr<repository::Repository> &value) { duck_repository = value; }
-    void ReportsService::setLaneRepository(const std::shared_ptr<repository::Repository> &value) { lane_repository = value; }
+    void ReportsService::setDuckRepository(const std::shared_ptr<ro::ubb::duck_app::repository::Repository> &value) { duck_repository = value; }
+    void ReportsService::setLaneRepository(const std::shared_ptr<ro::ubb::duck_app::repository::Repository> &value) { lane_repository = value; }
 
     void ReportsService::schemaMunti() const {
         auto ducks = getAllDucks();
@@ -52,7 +52,7 @@ namespace ro::ubb::duck_app::service {
         std::sort(duck_ids.begin(), duck_ids.end(), [&](int a, int b) {
             const auto& d1 = ducks.at(a);
             const auto& d2 = ducks.at(b);
-            return std::tie(d1->getResistance(), d1->getSpeed()) < std::tie(d2->getResistance(), d2->getSpeed());
+            return std::make_tuple(d1->getResistance(), d1->getSpeed()) < std::make_tuple(d2->getResistance(), d2->getSpeed());
         });
 
         std::vector<int> lane_ids;
@@ -92,7 +92,5 @@ namespace ro::ubb::duck_app::service {
         std::cout << std::fixed << std::setprecision(20);
         std::cout << "Minimum time is: " << times[numLanes - 1] * 2 << std::endl;
     }
-
-    // TODO: Change the dict[key] to dict.at(key) because C++ doesn't have a KeyError implemented and it will automatically add the element with the key and value given.
 
 }

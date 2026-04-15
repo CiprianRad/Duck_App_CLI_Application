@@ -13,20 +13,20 @@ namespace ro::ubb::duck_app::service {
 
     class LaneService {
     private:
-        std::shared_ptr<repository::Repository> lane_repository;
+        std::shared_ptr<ro::ubb::duck_app::repository::Repository> lane_repository;
 
     public:
-        explicit LaneService(std::shared_ptr<repository::Repository> lane_repository);
+        explicit LaneService(std::shared_ptr<ro::ubb::duck_app::repository::Repository> lane_repository);
         virtual ~LaneService() = default;
 
-        [[nodiscard]] std::shared_ptr<repository::Repository> getRepository() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::repository::Repository> getRepository() const;
 
         void addLane(int lane_id, int length);
         void updateLane(int lane_id, int length);
         void removeLane(int lane_id);
 
-        std::shared_ptr<domain::Lane> findLaneById(int lane_id);
-        std::vector<std::shared_ptr<domain::Lane>> getLanes();
+        std::shared_ptr<ro::ubb::duck_app::domain::Lane> findLaneById(int lane_id);
+        std::vector<std::shared_ptr<ro::ubb::duck_app::domain::Lane>> getLanes();
     };
 
 }

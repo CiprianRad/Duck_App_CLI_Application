@@ -2,10 +2,10 @@
 
 namespace ro::ubb::duck_app::repository {
 
-    Repository::Repository(std::shared_ptr<domain::EntityValidator> validator) 
+    Repository::Repository(std::shared_ptr<ro::ubb::duck_app::domain::EntityValidator> validator) 
         : validator(std::move(validator)) {}
 
-    std::shared_ptr<domain::Entity> Repository::findById(int id) const {
+    std::shared_ptr<ro::ubb::duck_app::domain::Entity> Repository::findById(int id) const {
         auto it = entities.find(id);
         if (it != entities.end()) {
             return it->second;
@@ -13,8 +13,8 @@ namespace ro::ubb::duck_app::repository {
         return nullptr;
     }
 
-    std::vector<std::shared_ptr<domain::Entity>> Repository::findAll() const {
-        std::vector<std::shared_ptr<domain::Entity>> result;
+    std::vector<std::shared_ptr<ro::ubb::duck_app::domain::Entity>> Repository::findAll() const {
+        std::vector<std::shared_ptr<ro::ubb::duck_app::domain::Entity>> result;
         result.reserve(entities.size());
         for (const auto& [id, entity] : entities) {
             result.push_back(entity);
@@ -28,7 +28,7 @@ namespace ro::ubb::duck_app::repository {
         }
     }
 
-    void Repository::save(const std::shared_ptr<domain::Entity> &entity) {
+    void Repository::save(const std::shared_ptr<ro::ubb::duck_app::domain::Entity> &entity) {
         if (entity == nullptr) return;
         
         validator->validate(*entity);
@@ -39,7 +39,7 @@ namespace ro::ubb::duck_app::repository {
         entities[entity->getId()] = entity;
     }
 
-    void Repository::update(const std::shared_ptr<domain::Entity> &entity) {
+    void Repository::update(const std::shared_ptr<ro::ubb::duck_app::domain::Entity> &entity) {
         if (entity == nullptr) return;
 
         validator->validate(*entity);

@@ -8,14 +8,17 @@
 #include "../service/LaneService.h"
 #include "../service/ReportsService.h"
 #include <memory>
+#include <iostream>
+#include <vector>
+#include <string>
 
 namespace ro::ubb::duck_app::ui {
 
     class UI {
     private:
-        std::shared_ptr<service::DuckService> duck_service;
-        std::shared_ptr<service::LaneService> lane_service;
-        std::shared_ptr<service::ReportsService> reports_service;
+        std::shared_ptr<ro::ubb::duck_app::service::DuckService> duck_service;
+        std::shared_ptr<ro::ubb::duck_app::service::LaneService> lane_service;
+        std::shared_ptr<ro::ubb::duck_app::service::ReportsService> reports_service;
 
         void uiAddDuck();
         void uiUpdateDuck();
@@ -35,19 +38,19 @@ namespace ro::ubb::duck_app::ui {
         static void showReportsOptions();
 
     public:
-        explicit UI(const std::shared_ptr<service::DuckService> &duck_service,
-                    const std::shared_ptr<service::LaneService> &lane_service,
-                    const std::shared_ptr<service::ReportsService> &reports_service);
+        explicit UI(const std::shared_ptr<ro::ubb::duck_app::service::DuckService> &duck_service,
+                    const std::shared_ptr<ro::ubb::duck_app::service::LaneService> &lane_service,
+                    const std::shared_ptr<ro::ubb::duck_app::service::ReportsService> &reports_service);
         ~UI() = default;
 
         // Getters and Setters
-        [[nodiscard]] std::shared_ptr<service::DuckService> getDuckService() const;
-        [[nodiscard]] std::shared_ptr<service::LaneService> getLaneService() const;
-        [[nodiscard]] std::shared_ptr<service::ReportsService> getReportsService() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::service::DuckService> getDuckService() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::service::LaneService> getLaneService() const;
+        [[nodiscard]] std::shared_ptr<ro::ubb::duck_app::service::ReportsService> getReportsService() const;
 
-        void setDuckService(const std::shared_ptr<service::DuckService> &duck_service);
-        void setLaneService(const std::shared_ptr<service::LaneService> &lane_service);
-        void setReportsService(const std::shared_ptr<service::ReportsService> &reports_service);
+        void setDuckService(const std::shared_ptr<ro::ubb::duck_app::service::DuckService> &duck_service);
+        void setLaneService(const std::shared_ptr<ro::ubb::duck_app::service::LaneService> &lane_service);
+        void setReportsService(const std::shared_ptr<ro::ubb::duck_app::service::ReportsService> &reports_service);
 
         void runMenu();
     };

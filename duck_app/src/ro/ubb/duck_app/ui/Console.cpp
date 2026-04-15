@@ -3,9 +3,9 @@
 
 namespace ro::ubb::duck_app::ui {
 
-    UI::UI(const std::shared_ptr<service::DuckService> &duck_service, 
-           const std::shared_ptr<service::LaneService> &lane_service, 
-           const std::shared_ptr<service::ReportsService> &reports_service) 
+    UI::UI(const std::shared_ptr<ro::ubb::duck_app::service::DuckService> &duck_service, 
+           const std::shared_ptr<ro::ubb::duck_app::service::LaneService> &lane_service, 
+           const std::shared_ptr<ro::ubb::duck_app::service::ReportsService> &reports_service) 
         : duck_service(duck_service), lane_service(lane_service), reports_service(reports_service) {}
 
     void UI::showAllOptions() {
@@ -103,6 +103,30 @@ namespace ro::ubb::duck_app::ui {
 
     void UI::uiShowOptimalTime() {
         reports_service->schemaMunti();
+    }
+
+    std::shared_ptr<ro::ubb::duck_app::service::DuckService> UI::getDuckService() const {
+        return duck_service;
+    }
+
+    std::shared_ptr<ro::ubb::duck_app::service::LaneService> UI::getLaneService() const {
+        return lane_service;
+    }
+
+    std::shared_ptr<ro::ubb::duck_app::service::ReportsService> UI::getReportsService() const {
+        return reports_service;
+    }
+
+    void UI::setDuckService(const std::shared_ptr<ro::ubb::duck_app::service::DuckService> &duck_service) {
+        this->duck_service = duck_service;
+    }
+
+    void UI::setLaneService(const std::shared_ptr<ro::ubb::duck_app::service::LaneService> &lane_service) {
+        this->lane_service = lane_service;
+    }
+
+    void UI::setReportsService(const std::shared_ptr<ro::ubb::duck_app::service::ReportsService> &reports_service) {
+        this->reports_service = reports_service;
     }
 
     void UI::runMenu() {
