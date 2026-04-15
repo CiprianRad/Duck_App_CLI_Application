@@ -20,29 +20,6 @@ Proba.h / .cpp: Handles the logic for specific swimming events.
 
 Concurs.h / .cpp: The orchestrator class that manages the overall flow of the competition.
 
-## Getting Started
-### Prerequisites
-You will need a C++ compiler supporting at least C++11 (such as GCC, Clang, or MSVC).
-
-### Compilation
-To compile the project using G++, navigate to the root directory and run:
-
-Bash
-g++ -o natatie main.cpp Participant.cpp Proba.cpp Concurs.cpp
-### Running the Application
-After compilation, execute the generated binary:
-
-Bash
-./natatie
-## Usage Example
-Upon running the program, the system will typically:
-
-Initialize a list of participants.
-
-Assign participants to specific swimming events (e.g., 100m Freestyle).
-
-Output the sorted results or specific participant details to the console.
-
 ## Technical Concepts Used
 Classes and Objects: Modeling real-world entities.
 
